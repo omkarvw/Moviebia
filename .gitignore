@@ -1,0 +1,25 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+moviebia/node_modules
+moviebia/.pnp
+moviebia/.pnp.js
+
+# testing
+moviebia/coverage
+
+# production
+moviebia/build
+
+# misc
+moviebia/.DS_Store
+moviebia/.env.local
+moviebia/.env.development.local
+moviebia/.env.test.local
+moviebia/.env.production.local
+
+moviebia/npm-debug.log*
+moviebia/yarn-debug.log*
+moviebia/yarn-error.log*
+
+Backend/env
