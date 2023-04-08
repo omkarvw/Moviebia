@@ -3,8 +3,11 @@ import Banner from './Banner';
 import Navmenu from './Navmenu';
 import classes from './Dashboard.module.scss';
 import ContentSlider from './ContentSlider';
+
+
 const Dashboard = () => {
     return (<>
+
         <div className={classes["background-container"]}>
         </div>
         <Navmenu />
