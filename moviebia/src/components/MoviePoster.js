@@ -5,6 +5,11 @@ const MoviePoster = props => {
     const ViewMovieHandler = () => {
         Navigate('/Dashboard/Movie')
     }
+
+    const fetchDetails = async () => {
+        fetch()
+    }
+
     return (<>
         <div className={classes.imgcontainer}><img className={classes.posterimg} src={`http://image.tmdb.org/t/p/w500/sF1U4EUQS8YHUYjNl3pMGNIQyr0.jpg`} onClick={ViewMovieHandler} /></div></>);
 }
