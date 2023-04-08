@@ -1,0 +1,94 @@
+.bannerImage {
+    height: 100vh;
+    width: 96vw;
+    display: flex;
+    margin-left: 4vw;
+
+
+
+
+}
+
+.img-shadow {
+    position: relative;
+    max-width: 100%;
+    float: left;
+}
+
+.img-shadow::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    box-shadow: inset 30vw 0 1000px 100px black;
+    -moz-box-shadow: inset 30vw 0 1000px 100px black;
+    -webkit-box-shadow: inset 30vw 0 1000px 100px black;
+}
+
+.img-shadow img {
+    float: left;
+}
+
+
+
+.movInfo {
+    position: absolute;
+    z-index: 3;
+    top: 15vh;
+    left: 10vw;
+}
+
+.movName {
+    color: antiquewhite;
+    height: 10vh;
+    width: 20vw;
+    font-size: 5vh;
+
+
+}
+
+.movProps {
+    color: aliceblue;
+    // position: absolute;
+    // left: -5vw;
+    margin-top: auto;
+    width: fit-content;
+}
+
+.movGenre {
+    display: flex;
+
+}
+
+.firstGen {
+    list-style-type: none;
+}
+
+.movGenre>li {
+    margin-right: 2vw;
+
+
+}
+
+.plot {
+    margin-top: 4vh;
+    color: aliceblue;
+    max-width: 30vw;
+    margin-bottom: 4vh;
+    ;
+}
+
+.cast {
+    margin-top: 4vh;
+    color: aliceblue;
+    max-width: 30vw;
+    margin-bottom: 4vh;
+
+}
+
+.rating {
+    color: aliceblue;
+    font-weight: bolder;
+}
