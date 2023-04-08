@@ -42,8 +42,11 @@ class Ratings(APIView):
 
 class train(APIView):
     permission_classes = [IsAuthenticated]
-    
-    def get(self, request, pk):
+    def get(self, request):
+        name=request.user.username
+        idObj=userid.objects.get(username=name)
+        idDict=model_to_dict(idObj)
+        pk=idDict['userId']
         df_R = pd.read_pickle('R.pkl')
         R=df_R.to_numpy()
         df_Y = pd.read_pickle('Y.pkl')
@@ -59,17 +62,13 @@ class train(APIView):
         my_ratings = np.zeros(num_movies)
         ratings=Rating.objects.filter(userId=pk)
         ratings_Dict=[ model_to_dict(rating) for rating in ratings]
-        # print(ratings_Dict)
         for i in ratings_Dict:
             ori_id= i['movieId']
             movie_obj=Movie.objects.get(movieId=ori_id)
             serializer_m = MovieSerializer(movie_obj, many=False)
             movie_Dict = model_to_dict(movie_obj)
-            # print(movie_Dict)
             movie=int(movie_Dict['id'])
-            # print(movie)
             rating=i['rating']
-            # print(rating)
             my_ratings[movie]= rating 
         print('\nNew user ratings:\n')
         for i in range(len(my_ratings)):
@@ -304,7 +303,12 @@ class suggestions(ListAPIView, SuggestionsPagination):
     permission_classes = [IsAuthenticated]
     pagination_class=SuggestionsPagination
     serializer_class=MovieSerializer
-    def get_suggestions(self ,request, pk):
+    def get(self ,request):
+        name=request.user.username
+        idObj=userid.objects.get(username=name)
+        idDict=model_to_dict(idObj)
+        pk=idDict['userId']
+        print(pk)
         suggestions=Suggestion.objects.get(userId=pk)
         suggestions_Dict=model_to_dict(suggestions)
         movieid_to_send=[]
@@ -419,7 +423,14 @@ class RatingCreateView(generics.CreateAPIView):
 class TokenIncrement(APIView):
     permission_classes=[IsAuthenticated]
     serialzer_class=TokenSerializer
-    def get(self, request, pk):
+    def get(self, request):
+        name=request.user.username
+        print(name)
+        idObj=userid.objects.get(username=name)
+        idDict=model_to_dict(idObj)
+        print(idDict)
+        pk=idDict['userId']
+        print(id)
         tokens=Token.objects.get(userId=int(pk))
         token_dict=model_to_dict(tokens)
         new_balance=token_dict['balance']
@@ -431,7 +442,13 @@ class TokenIncrement(APIView):
     
 class RedeemTokens(APIView):
     permission_classes=[IsAuthenticated]
-    def get(self, request, pk):
+    def get(self, request):
+        name=request.user.username
+        print(name)
+        idObj=userid.objects.get(username=name)
+        idDict=model_to_dict(idObj)
+        print(idDict)
+        pk=idDict['userId']
         Token.objects.filter(userId=int(pk)).update(balance=0)
         return Response('ok')
              
@@ -459,9 +476,12 @@ class Userid(APIView):
     permission_classes=[IsAuthenticated]
     def get(self, request):
         name=request.user.username
-        id=userid.objects.get(username=name)
-        serializer=useridSerializer(id)
-        return Response(serializer.data)
+        idObj=userid.objects.get(username=name)
+        idDict=model_to_dict(idObj)
+        id=idDict['id']
+        print(id)
+        print(type(id))
+        return Response('OK')
     
 class LogoutView(APIView):
     permission_classes = (IsAuthenticated,)
@@ -517,6 +537,14 @@ class Highly_rated(ListAPIView, CustomNumberPagination):
             serializer = self.serializer_class(paginate_queryset, many=True)
             return self.get_paginated_response(serializer.data)
         serializer = self.serializer_class(movies, many=True)
+        return Response(serializer.data)
+    
+class GetName(APIView):
+    permission_classes=[IsAuthenticated]
+    serializer_class= RegisterSerializer
+    def get(self, request):
+        user_profile = request.user
+        serializer = RegisterSerializer(user_profile)
         return Response(serializer.data)
     
 # class Swap(APIView):

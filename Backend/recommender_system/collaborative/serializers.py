@@ -34,6 +34,16 @@ class KeysSerializer(serializers.ModelSerializer):
     class Meta:
         model= userid
         fields= '__all__'
+        
+# class UserProfileSerializer(serializers.ModelSerializer):
+#     email = serializers.EmailField(source='user.email')
+#     username = serializers.CharField(source='user.username')
+#     first_name = serializers.CharField(source='user.first_name')
+#     last_name = serializers.CharField(source='user.last_name')
+
+#     class Meta:
+#         model = User
+#         fields = ['email', 'username', 'first_name', 'last_name']
 
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(

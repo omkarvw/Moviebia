@@ -8,8 +8,8 @@ urlpatterns = [
     # path('delete/',views.delete_all),
     path('ratings/<str:pk>/', views.Ratings.as_view()),
     path('create_userid/<str:pk>/',views.create_userid),
-    path('train/<str:pk>/',views.train.as_view()),
-    path('suggestions/<str:pk>/',views.suggestions.as_view()),
+    path('train/',views.train.as_view()),
+    path('suggestions/',views.suggestions.as_view()),
     path('genre/<str:pk>/', views.genre.as_view()),
     path('users/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('users/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
@@ -19,8 +19,9 @@ urlpatterns = [
     path('logout/', views.LogoutView.as_view(), name='auth_logout'),
     path('increment/<str:pk>/', views.update_number.as_view()),
     path('trending/',views.Trending.as_view()),
-    path('highly_rated',views.Highly_rated.as_view()),
-    # path('incrementToken/<str:pk>/', views.TokenIncrement.as_view()),
+    path('highly_rated/',views.Highly_rated.as_view()),
+    path('incrementToken/', views.TokenIncrement.as_view()),
     # path('swap/<str:pk>/', views.Swap.as_view()),
-    path('TokenReset/<str:pk>/', views.RedeemTokens.as_view()),   
+    path('TokenReset/<str:pk>/', views.RedeemTokens.as_view()),
+    path('profile/',views.GetName.as_view())   
 ]
