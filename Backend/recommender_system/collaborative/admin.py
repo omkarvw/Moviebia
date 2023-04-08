@@ -1,7 +1,8 @@
 from django.contrib import admin
-from .models import Movie, Rating, Suggestion, userid
+from .models import Movie, Rating, Suggestion, userid, Token
 # Register your models here.
 admin.site.register(Movie)
 admin.site.register(Rating)
 admin.site.register(Suggestion)
 admin.site.register(userid)
+admin.site.register(Token)

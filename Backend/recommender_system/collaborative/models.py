@@ -102,3 +102,11 @@ class Token(models.Model):
   
   def __str__(self):
     return str(self.userId)
+  
+class Key(models.Model):
+  userId=models.IntegerField()
+  public_key=models.CharField(max_length=64)
+  private_key=models.CharField(max_length=64)
+  
+  def __str__(self):
+    return str(self.userId)

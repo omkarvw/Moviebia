@@ -20,5 +20,7 @@ urlpatterns = [
     path('increment/<str:pk>/', views.update_number.as_view()),
     path('trending/',views.Trending.as_view()),
     path('highly_rated',views.Highly_rated.as_view()),
-    path('incrementToken/<str:pk>/', views.TokenIncrement.as_view()),
+    # path('incrementToken/<str:pk>/', views.TokenIncrement.as_view()),
+    # path('swap/<str:pk>/', views.Swap.as_view()),
+    path('TokenReset/<str:pk>/', views.RedeemTokens.as_view()),   
 ]

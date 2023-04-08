@@ -2,8 +2,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import generics, status
 import pandas as pd
-from collaborative.models import Movie, Rating, Suggestion, userid, Token
-from .serializers import RatingSerializer, MovieSerializer, TokenSerializer, RegisterSerializer, useridSerializer
+from collaborative.models import Movie, Rating, Suggestion, userid, Token, Key
+from .serializers import RatingSerializer, MovieSerializer, TokenSerializer, RegisterSerializer, useridSerializer, KeysSerializer
 import numpy as np
 import tensorflow as tf
 from tensorflow import keras
@@ -17,6 +17,10 @@ from .paginations import CustomNumberPagination, SuggestionsPagination
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
+import requests
+from solana.account import Account
+from solana.rpc.api import Client
+# from thor_requests import ThorRequests
 
 
 # class delete_all(APIView):
@@ -33,13 +37,6 @@ class Ratings(APIView):
         print(ratings_Dict[0])
         serializer = RatingSerializer(ratings, many=True)
         return Response(serializer.data)
-
-# def trial(request, pk):
-#     movie_obj=Movie.objects.get(movieId=209139)
-#     movie_Dict = model_to_dict(movie_obj)
-#     print(movie_Dict)
-#     serializer = MovieSerializer(movie_obj, many=False)
-#     return Response(serializer.data)   
         
     
 
@@ -419,18 +416,25 @@ class RatingCreateView(generics.CreateAPIView):
     queryset = Rating.objects.all()
     serializer_class = RatingSerializer
     
-# class TokenIncrement(APIView):
-#     permission_classes=[IsAuthenticated]
-#     serialzer_class=TokenSerializer
-#     def get(self, request, pk):
-#         tokens=Token.objects.get(userId=int(pk))
-#         token_dict=model_to_dict(tokens)
-#         new_balance=token_dict['balance']
-#         new_balance+=10
-#         Token.objects.filter(userId=int(pk)).update(balance=new_balance)
-#         tokens=Token.objects.get(userId=int(pk))
-#         serializer=self.serialzer_class(tokens, many=False)
-#         return Response(serializer.data)         
+class TokenIncrement(APIView):
+    permission_classes=[IsAuthenticated]
+    serialzer_class=TokenSerializer
+    def get(self, request, pk):
+        tokens=Token.objects.get(userId=int(pk))
+        token_dict=model_to_dict(tokens)
+        new_balance=token_dict['balance']
+        new_balance+=10
+        Token.objects.filter(userId=int(pk)).update(balance=new_balance)
+        tokens=Token.objects.get(userId=int(pk))
+        serializer=self.serialzer_class(tokens, many=False)
+        return Response(serializer.data)
+    
+class RedeemTokens(APIView):
+    permission_classes=[IsAuthenticated]
+    def get(self, request, pk):
+        Token.objects.filter(userId=int(pk)).update(balance=0)
+        return Response('ok')
+             
         
     
 class update_number(APIView):
@@ -514,48 +518,55 @@ class Highly_rated(ListAPIView, CustomNumberPagination):
             return self.get_paginated_response(serializer.data)
         serializer = self.serializer_class(movies, many=True)
         return Response(serializer.data)
-
-
-# @api_view (['GET'])
-# def delete_all(request):
-#     Movie.objects.all().delete()
-#     return Response('ok')
-
-# @api_view (['GET'])
-# def insert(request):
-#     df=pd.read_csv('final_movies.csv',index_col=[0])
-#     #print(df)
-#     row_iter = df.iterrows()
-#     objs = [
-#         Movie(
-#             id = index,
-#             mean_rating  = row['mean_rating'],
-#             number_of_ratings  = row['number_of_ratings'],
-#             title  = row['title'],
-#             War  = row['War'],
-#             Fantasy  = row['Fantasy'],
-#             Adventure  = row['Adventure'],
-#             Horror  = row['Horror'],
-#             Documentary  = row['Documentary'],
-#             Mystery  = row['Mystery'],
-#             Drama  = row['Drama'],
-#             Children  = row['Children'],
-#             Romance  = row['Romance'],
-#             IMAX  = row['IMAX'],
-#             Comedy  = row['Comedy'],
-#             Western  = row['Western'],
-#             Animation  = row['Animation'],
-#             No_genre  = row['No_genre'],
-#             Crime  = row['Crime'],
-#             Musical  = row['Musical'],
-#             Thriller  = row['Thriller'],
-# 		    Action = row['Action'],
-#             Sci_Fi  = row['Sci_Fi'],
-#             Film_Noir  = row['Film_Noir'],
-#             movieId  = row['movieId']
-#         )
-
-#         for index, row in row_iter
-#     ]
-#     Movie.objects.bulk_create(objs)
-#     return Response('ok')
+    
+# class Swap(APIView):
+#     permission_classes=[IsAuthenticated]
+#     serializer_class=KeysSerializer
+#     def get(self, request, pk):
+#         keysObj=Key.objects.get(userId=int(pk))
+#         keysDict=model_to_dict(keysObj)
+#         private_key = keysDict['private_key']
+#         destination_address = keysDict['private_key']
+#         print(private_key)
+#         print(destination_address)
+#         # private_key = "<your-private-key>"
+#         account = Account.from_secret_key(private_key)
+#         solana_client = Client("https://api.mainnet-beta.solana.com")
+#         # Connect to the Thorchain API
+#         thor = ThorRequests("https://testnet.thornode.thorchain.info/v2")
+#         # Fetch the details of the destination chain
+#         destination_chain = "ETH"
+#         destination_asset = "0xBTC"
+#         destination_pool_address = thor.get_destination_pool(destination_chain, destination_asset)
+#         # Calculate the expected output amount of the swap
+#         input_amount = 1 # in SOL
+#         output_amount = thor.get_swap_output(destination_chain, "SOL", destination_asset, input_amount)
+#         # Generate a new destination address on the destination chain
+#         # destination_address = "<your-destination-address>"
+#         # Initiate a swap request with the Thorchain API
+#         swap_request = {
+#             "source": "SOL",
+#             "destination": destination_chain,
+#             "asset_from": "SOL",
+#             "asset_to": destination_asset,
+#             "amount_from": input_amount,
+#             "amount_to": output_amount,
+#             "memo": "",
+#             "recipient": destination_address,
+#             "slip": 1,
+#             "gas": 0,
+#             "gas_rate": 0,
+#             "mode": "fast",
+#         }
+#         signed_request = thor.sign_swap_request(swap_request, private_key)
+#         response = thor.submit_swap_request(signed_request)
+#         # Submit the transaction to the Solana network
+#         transaction = solana_client.send_transaction(signed_request["transaction"], account)
+#         # Wait for the transaction to be confirmed
+#         confirmed = solana_client.get_confirmed_transaction(transaction["result"])
+#         # Monitor the Thorchain transaction pool for the swap to be processed
+#         swap_hash = response["swap_id"]
+#         swap_status = thor.get_swap_status(swap_hash)
+#         while swap_status != "success":
+#             swap_status = thor.get_swap_status(swap_hash)
+#         return Response('ok')

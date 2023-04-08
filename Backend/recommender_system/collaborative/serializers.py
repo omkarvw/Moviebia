@@ -30,6 +30,11 @@ class useridSerializer(serializers.ModelSerializer):
         fields= '__all__'
 
 
+class KeysSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= userid
+        fields= '__all__'
+
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
             required=True,
