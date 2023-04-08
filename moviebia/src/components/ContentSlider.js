@@ -3,7 +3,7 @@ import MoviePoster from './MoviePoster';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from 'react-slick';
-import { useState } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 
 function SampleNextArrow(props) {
@@ -41,8 +41,8 @@ const ContentSlider = (props) => {
     const [movies, setMovies] = useState([]);
 
     // console.log('content slider props :', props)
-    const fetchMovies = async () => {
-        const response = await fetch('http://127.0.0.1:8000/suggestions/?page=1');
+    const fetchMovies = useCallback(async () => {
+        const response = await fetch(`http://127.0.0.1:8000/${props.endpoint}/?page=1`);
         if (!response.ok) {
             throw new Error('Something went wrong!');
         }
@@ -57,12 +57,16 @@ const ContentSlider = (props) => {
             });
         }
         setMovies(loadedMovies);
-    }
+    }, [props.endpoint])
+
+    useEffect(() => {
+        fetchMovies();
+    }, [fetchMovies])
 
     const moviesList = movies.map((movie) => {
         return (
             <div className={classes.posterDiv}>
-                <MoviePoster movieId={movie.key} />
+                <MoviePoster movieId={movie.id} movieTitle={movie.title} />
             </div>
         )
     })
