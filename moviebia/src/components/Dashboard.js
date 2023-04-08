@@ -13,10 +13,9 @@ const Dashboard = () => {
         <Navmenu />
         <Banner />
 
-
-        <ContentSlider title="Suggested For You" />
-        <ContentSlider title="Most Rated" />
-        <ContentSlider title="Trending" />
+        <ContentSlider title="Suggested For You" endpoint="suggestions" />
+        <ContentSlider title="Highly Rated" endpoint="highly_rated" />
+        <ContentSlider title="Trending" endpoint="trending" />
         <ContentSlider title="Action Movies" />
         <ContentSlider title="Adventure Movies" />
         <ContentSlider title="War Movies" />

@@ -10,9 +10,9 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/Dashboard/Movie" element={<Movie />} />
+        <Route path="/Dashboard/:movieId" element={<Movie />} />
         <Route path="/Dashboard/Genre" element={<Genrepage />} />
-        <Route path="/Dashboard/Genre/Action" element={<Page />} />
+        <Route path="/Dashboard/Genre/:genreName" element={<Page />} />
         <Route path="/Dashboard" element={<Dashboard />} />
 
 
