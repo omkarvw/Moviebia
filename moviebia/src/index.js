@@ -12,12 +12,17 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 // import { faPlateUtensils } from '@fortawesome/sharp-regular-svg-icons'
 
 import { BrowserRouter } from 'react-router-dom';
+import { UserContextProvider } from './store/user-context';
+
 library.add(fas);
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <BrowserRouter><App /></BrowserRouter>
-
+    <UserContextProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </UserContextProvider>
   </React.StrictMode>
 );
 

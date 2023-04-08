@@ -11,12 +11,32 @@ const MovBanner = (props) => {
             rating: newRating
         });
     }
+
+    const [movieData, setMovieData] = useState({});
+
+    const fetchDetails = useCallback(async () => {
+        const response = await fetch(`https://api.themoviedb.org/3/movie/${props.movieId}?api_key=4b11b7e0cdfd1a7257e990731db91e96`)
+        if (!response.ok) {
+            throw new Error('Something went wrong');
+        }
+        const data = await response.json();
+        // console.log(data);
+        setMovieData(data)
+    }, [props.movieId])
+
+    useEffect(() => {
+        fetchDetails();
+    }, [fetchDetails])
+
+    const year = new Date(movieData.release_date).getFullYear();
+    const lang = (movieData.original_language).toUpperCase();
+
     return (
 
         <><div className={classes["img-shadow"]}>
-            <img src={banimage} className={classes.bannerImage} />
-            <div className={classes.movInfo}><h2 className={classes.movName}>John Wick 4</h2>
-                <h3 className={classes.movProps}><ul className={classes.movGenre}><li className={classes.firstGen}>2023</li><li>Action</li><li>Adventure</li><li>16+</li></ul></h3><div className={classes.plot}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce viverra, libero sit amet finibus condimentum, lorem quam elementum massa, quis commodo eros odio sed augue. Maecenas lobortis maximus elit, sit amet ultrices sem faucibus quis. Nunc sit amet feugiat libero. Morbi eu sapien feugiat, ornare ex id, facilisis augue.</div><div className={classes.cast}><b>Star Cast: </b>Omkar Wadekar, Naman Bhagat<br></br><b>Director: </b>Omkar Wadekar, Naman Bhagat<br></br><b>Producer: </b>Omkar Wadekar, Naman Bhagat<br></br><b>Duration: </b>120 min<br></br><b>Rating: </b>5/5</div>
+            <img src={`http://image.tmdb.org/t/p/w500${movieData.backdrop_path}.jpg`} className={classes.bannerImage} />
+            <div className={classes.movInfo}><h2 className={classes.movName}>{movieData.original_title}</h2>
+                <h3 className={classes.movProps}><ul className={classes.movGenre}><li className={classes.firstGen}>{year}</li><li>{movieData.genres[0].name}</li><li>{movieData.genres[1].name}</li><li>{lang}</li></ul></h3><div className={classes.plot}>{movieData.overview}</div><div className={classes.cast}><b>Tagline: </b>{movieData.tagline}<br></br><b>Budget: </b>{movieData.budget}<br></br><b>Revenue: </b>{movieData.revenue}<br></br><b>Duration: </b>{movieData.runtime} min<br></br><b>Rating: </b>{movieData.vote_average / 2}/5</div>
                 <div className={classes.rating}>Rate this Movie:<br></br><br></br><StarRatings rating={currRating.rating}
                     starDimension="40px"
                     starSpacing="15px" changeRating={changeRating} /></div></div>
