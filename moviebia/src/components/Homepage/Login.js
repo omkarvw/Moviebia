@@ -1,5 +1,5 @@
 import classes from "./Login.module.css";
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 const Login = (props) => {
     const Navigate = useNavigate();
@@ -14,12 +14,16 @@ const Login = (props) => {
     }
     const submitHandler = (event) => {
         event.preventDefault();
+        let url = "";
         if (displayLogin) {
+            url = "http://localhost:8000/users/token";
+
 
         }
         else {
-
+            url = "http://localhost:8000/register/";
         }
+
         Navigate('/Dashboard');
     }
     return (

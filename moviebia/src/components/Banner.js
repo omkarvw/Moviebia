@@ -20,34 +20,50 @@ const Banner = props => {
 
     };
 
+    // console.log(props)
+
+    const { endpoint } = props
+    // console.log(endpoint);
+
     const [movies, setMovies] = useState([]);
 
     // console.log('content slider props :', props)
     const fetchMovies = useCallback(async () => {
-        const response = await fetch(`http://127.0.0.1:8000/${props.endpoint}/?page=1`);
-        if (!response.ok) {
-            throw new Error('Something went wrong!');
-        }
+        const response = await fetch(`http://127.0.0.1:8000/` + endpoint + `/?page=1`, {
+            mode: "cors", headers: {
+                Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMTM3MTYxLCJpYXQiOjE2ODEwNTA3NjEsImp0aSI6IjBkNzIxNTMxOTAyZjQ5NTQ5MWJhMTEzYjA2ZWIyNDY2IiwidXNlcl9pZCI6M30.GE_zQtzxVLQtSanRQF2VqQhkaEpd6J5sJiJIfxg6i1s"
+            }
+        });
+        // if (!response.ok) {
+        //     throw new Error('Something went wrong!');
+        // }
         const responseData = await response.json();
-        // console.log(responseData);
+        // console.log("response Data :", responseData.results[0]);
 
         const loadedMovies = [];
-        for (const key in responseData) {
-            loadedMovies.push({
-                id: key,
-                title: responseData[key].title,
-            });
+        for (const key in responseData.results) {
+            // console.log(key);
+            // console.log("somejdnsdjv ", responseData[key]);
+            if (responseData.results[key].backdrop_path !== "-1") {
+                loadedMovies.push(responseData.results[key]);
+            }
+
         }
+        // console.log(loadedMovies)
         setMovies(loadedMovies);
     }, [props.endpoint])
+
 
     useEffect(() => {
         fetchMovies();
     }, [fetchMovies])
 
+
+    // console.log(movies);
+
     const BannerList = movies.map(movie => {
         return (
-            <BannerChild movieId={movie.id} >  </BannerChild>
+            <BannerChild movie={movie} >  </BannerChild>
         )
     })
 
