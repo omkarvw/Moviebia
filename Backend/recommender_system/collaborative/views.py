@@ -2,8 +2,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import generics, status
 import pandas as pd
-from collaborative.models import Movie, Rating, Suggestion, userid, Token, Key
-from .serializers import RatingSerializer, MovieSerializer, TokenSerializer, RegisterSerializer, useridSerializer, KeysSerializer
+from collaborative.models import Movie, Rating, Suggestion, userid, Token
+from .serializers import RatingSerializer, MovieSerializer, TokenSerializer, RegisterSerializer, useridSerializer
 import numpy as np
 import tensorflow as tf
 from tensorflow import keras
@@ -614,3 +614,55 @@ class GetName(APIView):
 #         while swap_status != "success":
 #             swap_status = thor.get_swap_status(swap_hash)
 #         return Response('ok')
+
+@api_view (['GET'])
+def delete_all(request):
+    Movie.objects.all().delete()
+    return Response('ok')
+
+@api_view (['GET'])
+def insert(request):
+    df=pd.read_csv('movies_with_details.csv',index_col=[0])
+    #print(df)
+    row_iter = df.iterrows()
+    objs = [
+        Movie(
+            id = index,
+            mean_rating  = row['mean_rating'],
+            number_of_ratings  = row['number_of_ratings'],
+            title  = row['title'],
+            War  = row['War'],
+            Fantasy  = row['Fantasy'],
+            Adventure  = row['Adventure'],
+            Horror  = row['Horror'],
+            Documentary  = row['Documentary'],
+            Mystery  = row['Mystery'],
+            Drama  = row['Drama'],
+            Children  = row['Children'],
+            Romance  = row['Romance'],
+            IMAX  = row['IMAX'],
+            Comedy  = row['Comedy'],
+            Western  = row['Western'],
+            Animation  = row['Animation'],
+            No_genre  = row['No_genre'],
+            Crime  = row['Crime'],
+            Musical  = row['Musical'],
+            Thriller  = row['Thriller'],
+		    Action = row['Action'],
+            Sci_Fi  = row['Sci_Fi'],
+            Film_Noir  = row['Film_Noir'],
+            movieId  = row['movieId'],
+		    backdrop_path = row['backdrop_path'],
+		    poster_path = row['poster_path'],
+		    tmdb_title = row['tmdb_title'],
+		    tagline = row['tagline'],
+		    overview = row['overview'],
+		    budget = row['budget'],
+		    runtime = row['runtime'],
+		    original_language = row['original_language'],
+        )
+
+        for index, row in row_iter
+    ]
+    Movie.objects.bulk_create(objs)
+    return Response('ok')

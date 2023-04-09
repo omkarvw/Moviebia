@@ -4,8 +4,8 @@ from . import views
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 urlpatterns = [
-    # path('insert/', views.insert),
-    # path('delete/',views.delete_all),
+    path('insert/', views.insert),
+    path('delete/',views.delete_all),
     path('ratings/', views.Ratings.as_view()),
     path('create_userid/<str:pk>/',views.create_userid),
     path('train/',views.train.as_view()),

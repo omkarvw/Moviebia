@@ -25,7 +25,15 @@ class Movie(models.Model):
   Sci_Fi=models.IntegerField()
   Action=models.IntegerField(null=True)
   Film_Noir=models.IntegerField()
-  movieId=models.IntegerField(unique=True)  
+  movieId=models.IntegerField(unique=True)
+  backdrop_path=models.TextField(null= True, default= -1)
+  poster_path= models.TextField(null= True, default= -1)
+  tmdb_title=models.TextField(null= True, default= -1)
+  tagline= models.TextField(null= True, default= -1)
+  overview= models.TextField(null= True, default= -1)
+  budget= models.TextField(null= True, default= -1)
+  runtime=models.FloatField(null= True, default= -1)
+  original_language=models.CharField(null= True, default= -1, max_length=5)
     
   def __str__(self):
     return self.title
@@ -103,10 +111,10 @@ class Token(models.Model):
   def __str__(self):
     return str(self.userId)
   
-class Key(models.Model):
-  userId=models.IntegerField()
-  public_key=models.CharField(max_length=64)
-  private_key=models.CharField(max_length=64)
+# class Key(models.Model):
+#   userId=models.IntegerField()
+#   public_key=models.CharField(max_length=64)
+#   private_key=models.CharField(max_length=64)
   
-  def __str__(self):
-    return str(self.userId)
+#   def __str__(self):
+#     return str(self.userId)
