@@ -4,13 +4,11 @@ let logoutTimer;
 
 const UserContext = React.createContext({
     // refreshToken: "",
+    userName: "",
     accessToken: "",
     isLoggedIn: false,
-    freeTokenNumber: 0,
-    clearToken: () => { },
-    login: (accessToken, freeTokenNumber) => { },
+    login: (accessToken, freeTokenNumber, userName) => { },
     logout: () => { },
-    increaseTokenNumber: () => { },
 });
 
 const calculateRemainingTime = (expirationTime) => {
@@ -37,11 +35,12 @@ const retrieveStoredToken = () => {
 }
 
 export const UserContextProvider = (props) => {
+
     const tokenData = retrieveStoredToken();
     const initialToken = tokenData ? tokenData.token : null;
     const [accessToken, setAccessToken] = React.useState(initialToken);
-    const [freeTokenNumber, setFreeTokenNumber] = React.useState(0);
     const userIsLoggedIn = !!accessToken;
+    const [userName, setUserName] = React.useState("");
 
     const logoutHandler = useCallback(() => {
         setAccessToken("");
@@ -52,24 +51,17 @@ export const UserContextProvider = (props) => {
         }
     }, []);
 
-    const loginHandler = (accessToken, freeTokenNumber, expirationTime) => {
+    const loginHandler = (accessToken, freeTokenNumber, userName) => {
         setAccessToken(accessToken);
         localStorage.setItem('token', accessToken);
-        setFreeTokenNumber(freeTokenNumber);
+        setUserName(userName);
+        const expirationTime = 60000 * 60 * 24
         const remainingTime = calculateRemainingTime(expirationTime);
         logoutTimer = setTimeout(logoutHandler, remainingTime);
         localStorage.setItem('expirationTime', expirationTime);
     }
 
-    const clearTokenHandler = () => {
-        setFreeTokenNumber(0);
-        // logic to calculate amount of SOL to be transferred by company
-        // logic to transfer the SOL from company to user
-    }
 
-    const increaseTokenNumber = () => {
-        setFreeTokenNumber(freeTokenNumber + 10);
-    }
 
     useEffect(() => {
         if (tokenData) {
@@ -82,11 +74,9 @@ export const UserContextProvider = (props) => {
         // refreshToken: refreshToken,
         accessToken: accessToken,
         isLoggedIn: userIsLoggedIn,
-        freeTokenNumber: freeTokenNumber,
+        userName: userName,
         login: loginHandler,
         logout: logoutHandler,
-        clearToken: clearTokenHandler,
-        increaseTokenNumber: increaseTokenNumber,
     }
 
     return <UserContext.Provider value={contextValue}>

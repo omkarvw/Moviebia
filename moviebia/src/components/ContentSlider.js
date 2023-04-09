@@ -30,7 +30,7 @@ const ContentSlider = (props) => {
         dots: false,
         infinite: true,
         speed: 500,
-        slidesToShow: 6,
+        slidesToShow: 0,
         slidesToScroll: 3,
         nextArrow: <SampleNextArrow />,
         prevArrow: <SamplePrevArrow />,
@@ -42,21 +42,21 @@ const ContentSlider = (props) => {
 
     // console.log('content slider props :', props)
     const fetchMovies = useCallback(async () => {
-        const response = await fetch(`http://127.0.0.1:8000/${props.endpoint}/?page=1`);
+        const response = await fetch(`http://127.0.0.1:8000/${props.endpoint}/?page=1`, { mode: "cors", headers: { Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgxMTM3MTYxLCJpYXQiOjE2ODEwNTA3NjEsImp0aSI6IjBkNzIxNTMxOTAyZjQ5NTQ5MWJhMTEzYjA2ZWIyNDY2IiwidXNlcl9pZCI6M30.GE_zQtzxVLQtSanRQF2VqQhkaEpd6J5sJiJIfxg6i1s" } });
         if (!response.ok) {
             throw new Error('Something went wrong!');
         }
         const responseData = await response.json();
         // console.log(responseData);
-
+        // console.log(responseData);
         const loadedMovies = [];
-        for (const key in responseData) {
-            loadedMovies.push({
-                id: key,
-                title: responseData[key].title,
-            });
+        for (const key in responseData.results) {
+            // console.log(key);
+            // console.log("somejdnsdjv ", responseData[key]);
+            loadedMovies.push(responseData.results[key]);
         }
         setMovies(loadedMovies);
+        // console.log(loadedMovies);
     }, [props.endpoint])
 
     useEffect(() => {
@@ -66,7 +66,7 @@ const ContentSlider = (props) => {
     const moviesList = movies.map((movie) => {
         return (
             <div className={classes.posterDiv}>
-                <MoviePoster movieId={movie.id} movieTitle={movie.title} />
+                <MoviePoster movie={movie} />
             </div>
         )
     })
