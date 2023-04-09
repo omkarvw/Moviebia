@@ -37,7 +37,7 @@
 10) Blockchain
 
 # Tools used in making of Moviebia
-1) ThunderClient
+1) Postman - We use TMDB API here to fetch information about movies present in our recommender system and also we have made our own DRF REST API for the frontend to interact with the recommendation model and fetched data from TMDB API.
 2) VS Code
 3) GIT Bash
 4) Jupyter Notebook
