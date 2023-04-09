@@ -1,7 +1,7 @@
 
 import classes from "./MovBanner.module.scss";
 import banimage from "../sampleBanner.jpg";
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import StarRatings from 'react-star-ratings';
 
 const MovBanner = (props) => {

@@ -5,10 +5,10 @@ const Navmenu = props => {
     return (<><div className={classes.navigation}>
         <ul className={classes.ul}>
             <li className={classes.li}>
-                <a href="#" className={classes.a}>
+                <Link to="/Dashboard" className={classes.a}>
                     <span className={classes.icon}><FontAwesomeIcon icon={`fa-solid fa-house`} /></span>
                     <span className={classes.title}>Home</span>
-                </a>
+                </Link>
             </li>
             {/* <!-- <li>
                 <a href="#">
@@ -17,28 +17,28 @@ const Navmenu = props => {
                 </a>
             </li> --> */}
             <li className={classes.li}>
-                <a href="#" className={classes.a}>
+                <Link to="/Dashboard/Profile" className={classes.a}>
                     <span className={classes.icon}><FontAwesomeIcon icon={`fa-solid fa-user`} /></span>
                     <span className={classes.title}>Profile</span>
-                </a>
+                </Link>
             </li>
             <li className={classes.li}>
-                <a href="#" className={classes.a}>
+                <Link to="/Dashboard/Suggested" className={classes.a}>
                     <span className={classes.icon}><FontAwesomeIcon icon={`fa-solid fa-wand-magic-sparkles`} /></span>
                     <span className={classes.title}>Suggested</span>
-                </a>
+                </Link>
             </li>
             <li className={classes.li}>
-                <a href="#" className={classes.a}>
+                <Link to="/Dashboard/Mostrated" className={classes.a}>
                     <span className={classes.icon}><FontAwesomeIcon icon={`fa-solid fa-heart`} /></span>
                     <span className={classes.title}>Most Rated</span>
-                </a>
+                </Link>
             </li>
             <li className={classes.li}>
-                <a href="#" className={classes.a}>
+                <Link to="/Dashboard/Trending" className={classes.a}>
                     <span className={classes.icon}><FontAwesomeIcon icon={`fa-solid fa-hashtag`} /></span>
                     <span className={classes.title}>Trending</span>
-                </a>
+                </Link>
             </li>
             <li className={classes.li}>
                 <Link to="/Dashboard/Genre" className={classes.a}>
@@ -47,10 +47,10 @@ const Navmenu = props => {
                 </Link>
             </li>
             <li className={classes.li}>
-                <a href="#" className={classes.a}>
+                <Link to="/Dashboard/Aboutus" className={classes.a}>
                     <span className={classes.icon}><FontAwesomeIcon icon={`fa-solid fa-circle-info`} /></span>
                     <span className={classes.title}>About Us</span>
-                </a>
+                </Link>
             </li>
             <li className={classes.li}>
                 <a href="#" className={classes.a}>
