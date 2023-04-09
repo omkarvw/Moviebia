@@ -23,5 +23,6 @@ urlpatterns = [
     path('incrementToken/', views.TokenIncrement.as_view()),
     # path('swap/<str:pk>/', views.Swap.as_view()),
     path('TokenReset/<str:pk>/', views.RedeemTokens.as_view()),
-    path('profile/',views.GetName.as_view())   
+    path('profile/',views.GetName.as_view()),
+    path('getBalance/', views.GetBalance.as_view()),   
 ]

@@ -452,7 +452,19 @@ class RedeemTokens(APIView):
         Token.objects.filter(userId=int(pk)).update(balance=0)
         return Response('ok')
              
-        
+class GetBalance(APIView):
+    permission_classes=[IsAuthenticated]
+    serializer_class=TokenSerializer
+    def get(self, request):
+        name=request.user.username
+        print(name)
+        idObj=userid.objects.get(username=name)
+        idDict=model_to_dict(idObj)
+        print(idDict)
+        pk=idDict['userId']
+        tokens=Token.objects.get(userId=int(pk))
+        serializer=self.serializer_class(tokens, many=False)
+        return Response(serializer.data)   
     
 class update_number(APIView):
     permission_classes=[IsAuthenticated]
