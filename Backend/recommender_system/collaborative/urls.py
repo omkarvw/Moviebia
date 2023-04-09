@@ -6,7 +6,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 urlpatterns = [
     # path('insert/', views.insert),
     # path('delete/',views.delete_all),
-    path('ratings/<str:pk>/', views.Ratings.as_view()),
+    path('ratings/', views.Ratings.as_view()),
     path('create_userid/<str:pk>/',views.create_userid),
     path('train/',views.train.as_view()),
     path('suggestions/',views.suggestions.as_view()),

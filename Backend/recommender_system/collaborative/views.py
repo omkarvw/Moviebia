@@ -31,7 +31,11 @@ from solana.rpc.api import Client
 
 class Ratings(APIView):
     permission_classes = [IsAuthenticated]  
-    def get(request, pk):
+    def get(request):
+        name=request.user.username
+        idObj=userid.objects.get(username=name)
+        idDict=model_to_dict(idObj)
+        pk=idDict['userId']
         ratings=Rating.objects.filter(userId=pk)
         ratings_Dict=[ model_to_dict(rating) for rating in ratings]
         print(ratings_Dict[0])
