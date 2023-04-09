@@ -3,6 +3,9 @@ import MoviePoster from './MoviePoster';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from 'react-slick';
+import { useState, useCallback, useEffect } from 'react';
+
+
 function SampleNextArrow(props) {
     const { className, style, onClick } = props;
     return (
@@ -35,6 +38,39 @@ const ContentSlider = (props) => {
         adaptiveHeight: true
     };
 
+    const [movies, setMovies] = useState([]);
+
+    // console.log('content slider props :', props)
+    const fetchMovies = useCallback(async () => {
+        const response = await fetch(`http://127.0.0.1:8000/${props.endpoint}/?page=1`);
+        if (!response.ok) {
+            throw new Error('Something went wrong!');
+        }
+        const responseData = await response.json();
+        // console.log(responseData);
+
+        const loadedMovies = [];
+        for (const key in responseData) {
+            loadedMovies.push({
+                id: key,
+                title: responseData[key].title,
+            });
+        }
+        setMovies(loadedMovies);
+    }, [props.endpoint])
+
+    useEffect(() => {
+        fetchMovies();
+    }, [fetchMovies])
+
+    const moviesList = movies.map((movie) => {
+        return (
+            <div className={classes.posterDiv}>
+                <MoviePoster movieId={movie.id} movieTitle={movie.title} />
+            </div>
+        )
+    })
+
     return (<>
         <div >
             <h2 className={classes.movType}>{props.title}<p className={classes.viewall}>View All<div className={classes["arrow-container"]}>
@@ -43,7 +79,31 @@ const ContentSlider = (props) => {
                 <div className={classes.arrowt}></div>
             </div></p></h2>
             <Slider {...settings} className={classes.slider}>
-                <div className={classes.posterDiv}><MoviePoster /></div><div className={classes.posterDiv}><MoviePoster /></div><div className={classes.posterDiv}><MoviePoster /></div><div className={classes.posterDiv}><MoviePoster /></div><div className={classes.posterDiv}><MoviePoster /></div><div className={classes.posterDiv}><MoviePoster /></div><div className={classes.posterDiv}><MoviePoster /></div><div className={classes.posterDiv}><MoviePoster /></div></Slider>
+                {moviesList}
+                {/* <div className={classes.posterDiv}>
+                    <MoviePoster />
+                </div>
+                <div className={classes.posterDiv}>
+                    <MoviePoster />
+                </div>
+                <div className={classes.posterDiv}>
+                    <MoviePoster />
+                </div>
+                <div className={classes.posterDiv}>
+                    <MoviePoster />
+                </div>
+                <div className={classes.posterDiv}>
+                    <MoviePoster />
+                </div>
+                <div className={classes.posterDiv}>
+                    <MoviePoster />
+                </div>
+                <div className={classes.posterDiv}><MoviePoster />
+                </div>
+                <div className={classes.posterDiv}>
+                    <MoviePoster />
+                </div> */}
+            </Slider>
         </div >
     </>);
 }

@@ -4,19 +4,18 @@ import Navmenu from './Navmenu';
 import classes from './Dashboard.module.scss';
 import ContentSlider from './ContentSlider';
 
-
 const Dashboard = () => {
     return (<>
 
         <div className={classes["background-container"]}>
         </div>
         <Navmenu />
-        <Banner />
+        <Banner endpoint="trending" />
 
-
-        <ContentSlider title="Suggested For You" />
-        <ContentSlider title="Most Rated" />
-        <ContentSlider title="Trending" />
+        <ContentSlider title="Suggested For You" endpoint="suggestions" />
+        <ContentSlider title="Most Rated" endpoint="highly_rated" />
+        {/* <ContentSlider title="Trending" endpoint="trending" /> */}
+        <ContentSlider title="Rated By You" endpoint="ratings" />
         <ContentSlider title="Action Movies" />
         <ContentSlider title="Adventure Movies" />
         <ContentSlider title="War Movies" />
