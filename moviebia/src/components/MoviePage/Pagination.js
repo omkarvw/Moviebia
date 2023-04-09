@@ -19,7 +19,7 @@ const Pagination = ({
                     <button
                         key={index}
                         onClick={() => setCurrentPage(page)}
-                        className={page == currentPage ? classes.active : ""}>
+                        className={page == currentPage ? `${classes["button"]} ${classes["active"]}` : classes.button}>
                         {page}
                     </button>
                 );

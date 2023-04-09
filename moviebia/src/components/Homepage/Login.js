@@ -14,6 +14,12 @@ const Login = (props) => {
     }
     const submitHandler = (event) => {
         event.preventDefault();
+        if (displayLogin) {
+
+        }
+        else {
+
+        }
         Navigate('/Dashboard');
     }
     return (
