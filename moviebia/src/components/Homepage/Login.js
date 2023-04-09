@@ -51,7 +51,7 @@ const Login = (props) => {
                 {displayLogin && <form className={classes.login} onSubmit={submitHandler} >
 
                     <div className={classes.formGroup}>
-                        <input type="email" placeholder="Email ID" name="email" required autocomplete="off" />
+                        <input type="text" placeholder="Username" name="username" required autocomplete="off" />
                     </div>
                     <div className={classes.formGroup}>
                         <input type="password" id="password" placeholder="Password" required autocomplete="off" />

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import classes from './Navmenu.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 const Navmenu = props => {
@@ -40,10 +41,10 @@ const Navmenu = props => {
                 </a>
             </li>
             <li className={classes.li}>
-                <a href="#" className={classes.a}>
+                <Link to="/Dashboard/Genre" className={classes.a}>
                     <span className={classes.icon}><FontAwesomeIcon icon={`fa-solid fa-filter`} /></span>
                     <span className={classes.title}>All Genres</span>
-                </a>
+                </Link>
             </li>
             <li className={classes.li}>
                 <a href="#" className={classes.a}>

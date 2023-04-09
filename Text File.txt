@@ -1,0 +1,39 @@
+<html>
+<body>
+
+  <script src="https://cdn.mayan.finance/widget-ultimate-0-2-0.js" onload="(function () {
+    const config = {
+          appIdentity: {
+            name: 'My Project',
+            icon: './logo.png',
+            uri: 'https://myproject.io',
+          },
+          rpcs: {
+            solana: 'https://example.rpc.com/solana',
+            ethereum: 'https://example.rpc.com/ethereum',
+            polygon: 'https://example.rpc.com/polygon',
+            bsc: 'https://example.rpc.com/bsc',
+            avalanche: 'https://example.rpc.com/avalanche'
+          },
+          sourceChains: ['ethereum', 'bsc'],
+          destinationChains: ['solana'],
+          tokens: {
+            fromTokens: {
+              solana: ['sampleMintAddress1', 'sampleMintAddress2'],
+              ethereum: ['0xsampleContractAddress1', '0xsampleContractAddress2'],
+            },
+            toTokens: {
+              solana: ['sampleMintAddress3', 'sampleMintAddress4'],
+              ethereum: ['0xsampleContractAddress3', '0xsampleContractAddress4'],
+            }
+          },
+          colors: {
+            N500: '#FF00FF',
+          }
+        }
+        MayanSwap.init('swap_widget', config)
+  })()"
+  />
+
+</body>
+</html>
