@@ -5,6 +5,7 @@ import { Route, Routes } from 'react-router-dom';
 import Movie from './components/MovieDisplay/Movie'
 import Page from './components/MoviePage/Page';
 import Genrepage from './components/MoviePage/Genrepage';
+import AboutUs from './components/AboutUs';
 function App() {
   return (
     <>
@@ -14,6 +15,7 @@ function App() {
         <Route path="/Dashboard/Genre" element={<Genrepage />} />
         <Route path="/Dashboard/Genre/Action" element={<Page />} />
         <Route path="/Dashboard" element={<Dashboard />} />
+        <Route path="/Dashboard/Aboutus" element={<AboutUs />} />
 
 
 
